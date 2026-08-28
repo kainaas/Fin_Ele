@@ -1,0 +1,147 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{array}
+\usepackage{float}
+\usepackage{multirow}
+
+\title{List 1 - questions 2 and 4}
+\author{Kainã Tureso - 15466391 \\
+        Kauê Rodrigues dos Santos - 16880131 }
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+    \section*{Question 2}
+
+    We are solving the equation
+
+    \begin{equation}
+        \begin{cases}
+            -\dfrac{d}{dx}\left( \mu(x)\frac{du}{dx}(x) \right) + \zeta(x) u(x) = f(x); x \in(0,L) \\
+            u(0) = u(L) = 0
+        \end{cases}
+    \end{equation}
+
+    with $\mu(x) = 1$, $\zeta(x) = 0$ and $f(x)=1$. We can then simplify the ODE to
+    \begin{equation}
+        \begin{cases}
+            \dfrac{d^2u}{dx^2}(x) = -1; x \in (0,L) \\
+            u(0) = u(L) = 0
+        \end{cases}
+    \end{equation}
+
+    Integrating both sides of the equation with respect to $x$ twice, we obtain:
+    \begin{equation}
+        \dfrac{d^2u}{dx^2}(x) = -1 \implies \dfrac{du}{dx}(x) = -x + C \implies u(x) = -\frac{x^2}{2} + Cx + K
+    \end{equation}
+    with $C, K \in \mathbb{R}$. Using the boundary conditions:
+    \[
+        u(0) = 0 \implies \frac{0}{2} + C\cdot 0 + K = 0 \implies K =0
+    \]
+    \[
+        u(L) = 0 \implies -\frac{L^2}{2} + CL = 0 \implies C = \frac{L}{2}
+    \]
+
+    So, the analytical solution to this ODE is
+    \begin{equation}
+        u(x) = \frac x 2 (L - x); x \in [0,L]
+    \end{equation}
+
+    For the second case, $f$ is defined piecewise:
+    \[
+        f(x) = \begin{cases}
+            1, \text{ if }x \in (0,L/2) \\
+            0, \text{ otherwise}
+        \end{cases}
+    \]
+    Suppose we don't impose any continuity condition. Then any solution of the form
+    \begin{equation}
+        u(x) = \begin{cases}
+            -\frac{x^2}{2} +C_1x + K_1, \text{ if }x \in [0,L/2) \\
+            C_2x + K_2,\text{ if }x \in (L/2,L]
+        \end{cases}
+    \end{equation}
+    that satisfies the BCs is a solution to the ODE, except at $x=L/2$, where it might not even be differentiable. To satisfy the BCs, we must have $K_1 = 0$ and $C_2L + K_2 = 0 \implies K_2 = -C_2L$.
+
+    Then, we must impose that at $x=L/2$, both branches of the piecewise function $u$ have the same value, which gives us the equation:
+    \begin{equation}
+        \label{eq:sys1}
+        -\frac{1}{2} \left(\frac{L}{2} \right)^2 + C_1\frac{L}{2} = C_2\frac{L}{2} - C_2L \implies C_2 = -C_1 + \frac{L}{4}
+    \end{equation}
+
+    Still, we don't have a unique solution. We can try looking at the continuity of the derivative of $u$:
+    \[
+        \frac{du}{dx}(x)= \begin{cases}
+            -x + C_1, \text{ if }x \in [0,L/2) \\
+            C_2, \text{ if }x \in (L/2,L]
+        \end{cases}
+    \]
+    Imposing that continuity at $x=L/2$ gives us the equation
+    \begin{equation}
+    \label{eq:sys2}
+        -\frac{L}{2} + C_1 = C_2
+    \end{equation}
+
+    Equations \ref{eq:sys1} and \ref{eq:sys2} determine the system:
+    \begin{equation}
+        \begin{cases}
+            -\frac{L}{2} + C_1 = C_2 \\
+            C_2 = -C_1 + \frac{L}{4}
+        \end{cases}
+    \end{equation}
+    Solving it results in $C_1 = \dfrac{3L}{8}$, $C_2 = -\dfrac{L}{8}$ and $K_2 = \dfrac{L^2}{8}$, implying:
+
+    \begin{equation}
+        u(x) = \begin{cases}
+            -\dfrac{x^2}{2} + \dfrac{3L}{8}x , \text{ if }x \in [0,L/2) \\
+            \dfrac{L}{8}(L-x), \text{ otherwise}
+        \end{cases} 
+    \end{equation}
+
+    This is the only solution such that $u \in \mathcal{C}^1([0,L])$. Therefore, to uniquely determine $u$, we must impose two continuity/interface conditions: one for the continuity of $u$ and one for the continuity of $u'$.
+
+    \section*{Question 4}
+    We have the equation $-\nabla^2u = -6$ and a possible solution $u(x_1,x_2)=1 +x_1^2 +2x_2^2$. Calculating the derivatives:
+    \[
+        \nabla u(x_1, x_2) = \begin{bmatrix}
+            2x_1 \\
+            4x_2
+        \end{bmatrix}
+    \]
+    and
+    \[
+        \nabla^2u(x_1,x_2) = \frac{\partial}{\partial x_1}(2x_1) + \frac{\partial}{\partial x_2}(4x_2) = 2 + 4 = 6
+    \]
+    Which gives us
+    \[
+        -\nabla^2u(x_1,x_2) = -6
+    \]
+    So the given $u$ is an exact solution.
+
+    For the boundary conditions, we can determine Dirichlet and Neumann BCs on each side of the square that composes the domain. Then, we impose any combination of these conditions (one on each side), only remembering that there must be at least one Dirichlet BC for the problem to have a unique solution.
+
+    To set Dirichlet BCs, it's enough to find the value of $u$ in the determined boundary. For the Neumann BCs, we find the normal vector to each boundary, and we set $\nabla u \cdot \check{n}$ to the calculated value.
+
+    \begin{table}[H]
+        \centering
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabular}{r|r|r}
+             Square side & Dirichlet & Neumann  \\
+             \hline
+             \hline
+             $x_1 = 0$; $0\le x_2 \le 1$ & $u(0,x_2) = 1 + 2x_2^2$ & $\check{n} = (-1,0)^\top \implies -\partial_{x_1}u(0,x_2) = 0$\\
+             \hline
+             $x_1 = 1$; $0\le x_2 \le 1$ & $u(1,x_2) = 2 + 2x_2^2$ & $\check{n} = (1,0)^\top \implies \partial_{x_1}u(1,x_2) = 2$\\
+             \hline
+             $x_2 = 0$; $0\le x_1 \le 1$ & $u(x_1,0) = 1 +  x_1^2$ & $\check{n} = (0,-1)^\top \implies -\partial_{x_2}u(x_1,0) = 0$\\
+             \hline
+             $x_2 = 1$; $0\le x_1 \le 1$ & $u(x_1,1) = 3 +  x_1^2$ & $\check{n} = (0,1)^\top \implies \partial_{x_2}u(x_1,1) = 4$\\
+        \end{tabular}
+        \caption{Possible BCs}
+        \label{tab:placeholder}
+    \end{table}
+\end{document}
