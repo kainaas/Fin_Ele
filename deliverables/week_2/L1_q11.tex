@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{List 1 - Question 11}
+\author{Kainã Alves Tureso - 15466391}
+
+\begin{document}
+    \maketitle
+
+    \section*{Question 11}
+    Let $v$ be a test function such that $v(0) = 0$. We have:
+    \begin{equation}
+        - \frac{d}{dx} \left(\mu \frac{du}{dx}\right)vdx + \zeta u = F \implies \left( -\frac{d}{dx}\left(\mu \frac{du}{dx}\right) + \zeta u\right) v = Fv
+    \end{equation}
+
+    Integrating both sides:
+
+    \[
+        - \int_{0}^{L} \frac{d}{dx} \left(\mu \frac{du}{dx}\right)vdx + \zeta \int_{0}^{L} uv dx = \int_{0}^{L}Fvdx
+    \]
+
+    Integrating by parts the first integral gives us:
+
+    \[
+        - \frac{d}{dx} \left(\mu \frac{du}{dx}\right)vdx = -\mu v \left. \frac{du}{dx}\right|_0^L + \int_{0}^{L}\mu \frac{du}{dx} \frac{dv}{dx} dx
+    \]
+
+    As $v(0) = 0$:
+
+    \[
+        -\mu v \left. \frac{du}{dx}\right|_0^L = - \mu \frac{du}{dx}(L) v(L) = H_L v(L)
+    \]
+
+    Substituting back, gives us the variational form:
+
+    \begin{equation}
+        \int_{0}^{L}\left( \mu \frac{du}{dx} \frac{dv}{dx} + \zeta uv\right) dx = \int_{0}^{L}Fvdx - H_L v(L)
+    \end{equation}
+
+    (i) The geometric simplifications: We are assuming the pipe is very long (the flow is fully developed), has a constant diameter and lies in $\mathbb{R}^2$ (We have only one degree of freedom across the diameter).
+
+    (ii) Significance of boundary conditions:
+    \begin{itemize}
+        \item $u(0) = G_0$: we're setting the velocity at boundary. If $G_0 = 0$, then it's a no-slip condition.
+        \item $-\mu \frac{du}{dx}(L) = H_L$: According to the book "Introduction to Flui Dynamics" by Robert W. Fox, $\mu \frac{du}{dx}$ is the sheer stress. So, if $H_L \ne 0$, it means the pipe is moving at $x = L$
+    \end{itemize}
+
+    (iii) I don't really know. Google's Gemini answered:
+
+    "Physical Origin of the Reaction Term ($\zeta u$): Standard Navier-Stokes equations for channel flow only contain the viscous term and a pressure gradient source term ($F$). The linear reaction term $\zeta u$ represents a body force proportional and opposite to the velocity. Physically, this represents Darcy friction/drag, which occurs if the pipe or channel is filled with a porous medium that impedes the fluid flow."
+
+
+\end{document}
