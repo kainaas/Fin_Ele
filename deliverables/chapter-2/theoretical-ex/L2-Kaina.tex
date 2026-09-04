@@ -1,0 +1,221 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+
+\author{Kainã Alves Tureso - 15466391}
+\title{List 2 \\ Questions 1, 5, 10 and 13}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert_V}
+\newcommand{\normL}[2]{\left\lVert#1\right\rVert_{L^{#2}(\Omega)}}
+\newcommand{\inner}[2]{\left( #1, #2 \right)_V}
+
+\begin{document}
+    \maketitle
+
+    \section*{Question 1}
+
+    The induced norm is $\norm{u} = \sqrt{\inner{u}{u}}$. Note that, if $v,w \in V$:
+
+    \begin{align}
+        \inner vw &= \notag \\ 
+        &= \inner v{w-v + v} = \notag \\ 
+        &= \inner v{w-v} + \inner vv = \notag \\
+        &= \inner v{w-v} + \norm{v}^2 =  \notag \\
+        &= \inner{v- w + w}{w-v} + \norm{v}^2 = \notag \\
+        &= \inner{v-w}{w-v} + \inner w{w-v} + \norm{v}^2 = \notag \\
+        &= - \norm{v-w}^2 + \norm{w}^2 + \norm{v}^2 -  \inner wv = \notag \\
+        &=- \norm{v-w}^2 + \norm{w}^2 + \norm{v}^2 -  \inner vw \notag
+    \end{align}
+
+    Isolating $\inner vw$ gives us:
+
+    \begin{equation}
+        \label{eq:1}
+        \inner vw = \frac{1}{2} \left( \norm{v}^2 - \norm{v-w}^2 + \norm{w}^2 \right)
+    \end{equation}
+        
+    Note that $(\norm{v} - \norm{w})^2 = \norm{v}^2 - 2\norm{v}\norm{w} + \norm{w}^2$. Substituting in equation \ref{eq:1} gives us:
+    \[
+        \inner vw = \frac{1}{2} \left( (\norm v - \norm w)^2 + 2 \norm v \norm w - \norm{v-w}^2 \right)
+    \]
+
+    Taking the absolute value in both sides:
+    \begin{align}
+        |\inner vw| &= \notag \\
+        &= \frac{1}{2} \left| (\norm v - \norm w)^2 - \norm{v-w}^2 + 2\norm v \norm w \right| \le \notag\\
+        & \le  \frac{1}{2}\left| (\norm v - \norm w)^2 - \norm{v-w}^2 \right| + \norm v \norm w \le \notag \\
+        & \le \norm v \norm w \notag
+    \end{align}
+    Therefore $\left| \inner{v}{w} \right| \le \norm v \norm w$.
+
+    \section*{Question 5}
+    For $\vec{\alpha} = (2,0,0)$ we have:
+    \[
+        D^{\vec{\alpha}}f =\frac{\partial^2 f}{\partial x_1^2}
+    \]
+
+    For $\vec{\alpha} = (0,1,1)$:
+    \[
+        D^{\vec{\alpha}}f =\frac{\partial^2 f}{\partial x_2\partial x_3}
+    \]
+
+    \section*{Question 10}
+    \subsection*{a)}
+
+    First of all
+
+    \[
+        \frac{1}{r} + \frac{1}{r'} = \frac{1}{r} + \frac{r-1}{r} = \frac{r}{r} = 1
+    \]
+
+    So we can apply Hölder's inequality to these factors.
+
+    Note that:
+
+    \begin{equation}
+        \label{eq:2}
+        \normL{|f|^p}{1} = \int_\Omega |f|^p dx = \normL{f}{p}^p
+    \end{equation}
+
+    and
+
+    \begin{align}
+        \normL{|f|^p}{1} &= \notag \\
+        &= \normL{|f|^p \cdot 1}{1} \le  \notag \\
+        &\le \normL{|f|^p}{r} \normL{1}{r'} = \notag \\
+        &= \left( \int_\Omega |f|^{p \cdot \frac{q}{p}} dx \right)^{\frac{p}{q}} \left( \int_\Omega 1^{r'} dx \right)^{\frac{1}{r'}} = \notag \\ 
+        &= |\Omega|^{\frac{1}{r'}} \left( \int_\Omega |f|^q dx \right)^{\frac{p}{q}} =\notag \\
+        &= |\Omega|^{\frac{q-p}{q}} \left( \int_\Omega |f|^q dx \right)^{\frac{p}{q}}\notag
+    \end{align}
+
+    Using equation \ref{eq:2}:
+
+    \[
+        \normL{f}{p} = \normL{f}{1}^{\frac{1}{p}} \le |\Omega|^{\frac{q-p}{qp}} \normL{f}{q} = |\Omega|^{\frac{1}{p} - \frac{1}{q}} \normL{f}{q}
+    \]
+
+    If $\Omega$ is not bounded, then $|\Omega|$ is not finite, which gives us nothing usefull, as  $\normL{f}{p}$ could be infinite.
+
+    The demonstration above shows that if  $f \in L^q(\Omega)$ and $\Omega$ is bounded, then $\normL{f}{p} < \infty \implies f \in L^p(\Omega)$
+
+
+    \subsection*{b)}
+    First we're finding $s$ such that $f \in L^1(\Omega) \iff \int_\Omega |f(x)| dx < \infty$.
+
+    \[
+        \int_\Omega |f(x)| dx = \int_{0}^{1} x^{-s} dx
+    \]
+
+    \begin{itemize}
+        \item If $s < 1$, 
+        \[
+            \int_\Omega |f(x)|dx = \left. \frac{x^{1-s}}{1-s} \right|^1_0 = \frac{1^{1-s}}{1-s} - \frac{0}{1-s} = \frac{1}{1-s} < \infty 
+        \] 
+
+        \item If $s > 1$
+        \[
+            \int_\Omega |f(x)| dx = \left. \frac{1}{(1-s)x^{s-1}} \right|^1_0 =  \frac{1}{1-s} - \lim_{x \to 0^+} \frac{1}{(1-s)x^{s-1}} = \infty
+        \]
+
+        \item If $s = 1$
+        \[
+            \int_\Omega |f(x)| dx = \ln(x) |^1_0 = \infty
+        \]
+    \end{itemize}
+
+    Therefore, $f \in L^1(\Omega)$ when $s<1$.
+
+    Now we find $s$ such that $f \in L^2(\Omega) \iff \int_\Omega |f(x)|^2 dx < \infty$.
+    \[
+        \int_\Omega |f(x)|^2 dx = \int_{0}^{1} x^{-2s} dx = \int_\Omega x^{-t} dx \text{, with } t =2s
+    \]
+    We know this converges for $t<1 \implies s < \frac{1}{2}$.
+
+    So, $\forall s \in \left[ \frac{1}{2}, 1\right)$, $f \in L^1(\Omega)$ but  $f \notin L^2(\Omega)$.
+
+    This shows the inclusion is strict.
+
+    \subsection*{c)}
+
+    \[
+        \int_\Omega |f(x)|^2 dx = \int_{1}^{\infty} \frac{1}{x^2} dx = \left. \frac{-1}{x} \right|^\infty_1 = -\lim_{x \to \infty} \frac{1}{x} - \left( \frac{11}{1} \right) = 0 + 1 < \infty
+    \]
+
+    So $f \in L^2(\Omega)$.
+
+    \[
+        \int_\Omega |f(x)|dx = \int_{1}^{\infty} \frac{1}{x} dx = \ln(x) |infty_1 = \lim_{x \to \infty} \ln(x) = \infty
+    \]
+
+    So $f \notin L^1(\Omega)$.
+
+    This shows the boundedness of $\Omega$ is necessary for the inclusion to be valid.
+
+
+    \section*{Question 13}
+    \subsection*{a)}
+    Let $\varphi \in C^\infty_0(\Omega)$.
+    \[
+        \int_{-1}^{1} g(x) \varphi'(x) dx = \int_{-1}^{0} \varphi'(x) dx - \int_{0}^{1} \varphi'(x) dx = \varphi(x)|^0_{-1} - \varphi|^1_0 = 2 \varphi(0)
+    \]
+
+    Supposing $h$ is a weak derivative for $g$, we have:
+    \[
+        -\int_{-1}^{1} h(x) \varphi(x) dx = \int_{-1}^{1} g(x) \varphi'(x) dx = 2 \varphi(0) \implies
+    \]
+    \[
+        \implies \int_{-1}^{1} h(x) \varphi(x) dx = - 2 \varphi(0) = -2 \int_{-1}^{1} \delta_0 \varphi(x) dx
+    \]
+
+    As $g$ is differentiable for $x \ne 0$, we must have $h=g'$ for $x \ne 0$. But then  $h(x) \ne 0 $ only at $x=0$. But $\{0\}$ is a set with measure zero. If $h(0)$ is finite, then we'd have 
+    \[
+        \int_{-1}^{1} h(x) \varphi(x) dx = 0, \forall \varphi \in C^\infty_0(\Omega)
+    \]
+    which is an absurd. So $h$ must be a Dirac's delta.
+
+    \subsection*{b)}
+
+    First we show that $supp(\varphi_n) \subset \left(\frac{-1}{n}, \frac{1}{n}\right)$:
+
+    Take $x_0 \in supp(\varphi_n)$. $\forall \varepsilon > 0$, $\exists x_1 \in B_\varepsilon(x_0)$ such that $\varphi_n(x_1) \ne 0$. So, $\varphi(nx_1) \ne 0 \implies nx_1 \in (-1,1) \implies x_1 \in \left(\frac{-1}{n}, \frac{1}{n}\right)$. 
+
+    Take $\varepsilon = \frac{1}{2} \min\{ \left|x_0 - \frac{1}{n}\right| , \left| x_0 + \frac 1n \right| \}$
+
+    Suppose by absurdity $x_0 \ge \frac{1}{n}$
+
+    \[
+        |x_0 - x_1| \ge |x_0| - |x_1|  \ge \frac{1}{n}
+    \]
+
+    Therefore
+    \begin{align}
+        |x_1| &\ge \notag \\ 
+        &\ge\frac{1}{n} - |x_0 - x_1| \ge \notag \\
+        & \ge \frac{1}{n} - \frac{1}{2} \min\{ \left|x_0 - \frac{1}{n}\right| , \left| x_0 + \frac 1n \right| \} = \frac{1}{n} - \frac{1}{2}\left(x_0 - \frac{1}{n}\right) = \notag \\
+        &= \frac{3}{2n} - \frac{x_0}{2} \ge \frac{3}{2n} - \frac{1}{2n} = \frac{1}{n} \notag
+    \end{align}
+
+    Absurd, because $|x_1| < \frac{1}{n}$. Analogous for  $x_0 \le \frac{-1}{n}$.
+
+    $\varphi_n$ is continuous, as $\varphi_1$ is continuous and $supp(\varphi_n) \subset \left(\frac{-1}{n}, \frac{1}{n}\right) \subset (-1,1)$. So  $\varphi_n \in \mathcal{D}(-1,1)$
+
+    As consequence of this fact, 
+    \[
+        \int_{-1}^{1}h \varphi_n dx = -2 \varphi_n(0) = -2
+    \]
+    
+    But, $0 \le \varphi_n \le 1$, which gives
+
+    \[
+        \left|\int_{-}^{1}h \varphi_n dx\right| = \left| \int_{\frac{-1}{n}}^{\frac{1}{n}} h \varphi_n dx \right| \le \int_{\frac{-1}{n}}^{\frac{1}{n}} |h| \varphi_n dx \le \int_{\frac{-1}{n}}^{\frac{1}{n}} |h| dx \overset{n \to \infty}{\longrightarrow} 0
+    \]
+
+    Using the absolute continuity of the Lebesgue integral to justify the convergence. Absurd, because
+    \[
+       \left| \int_{-1}^{1}h \varphi_n dx \right| = |-2 \varphi_n(0)| = 2
+    \]
+
+    Therefore, $g$ does not have a weak derivative.
+\end{document}
