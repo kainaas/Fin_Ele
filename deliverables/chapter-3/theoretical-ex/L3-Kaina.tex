@@ -1,0 +1,153 @@
+\documentclass{article}
+
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Exercises from chapter 3}
+
+\author{Kainã Alves Tureso - 15466391}
+
+\newcommand{\normL}[2]{\left\lVert#1\right\rVert_{L^{#2}(\Omega)}}
+
+\begin{document}
+    \maketitle
+
+    \section*{Exercise 1}
+    \subsection*{First example:} 
+
+    $l(v) = 0$: it's trivially bounded, so it's continuous. So the Riesz representative is unique. Now we find it:
+
+    For the dot product:
+    \[
+        (0, v) = \sum_{i=1}^{n}0 \cdot v_i = 0 = l(v), \forall v \in \mathbb{R}^n \implies 0 \text{ is the representative}
+    \]
+
+    For a matrix induced inner product: let $A$ be a symmetric, positive-definite matrix. We define the inner product $(u,v)_A = u^\top A v$
+
+    \[
+        (v, 0)_A = v^\top A 0 = v^\top 0 = 0 \implies 0 \text{ is the representative}
+    \]
+
+
+    \subsection*{Second example:}
+
+    $l_i(v) = v_i$: we need to prove it's bounded for each inner product
+
+    With dot product:
+
+    First we prove boundedness.
+    \[
+        |l_i(v)|^2 = |v_i|^2 \le \sum_{j=1}^{n} v_j^2 = ||v||_2^2 \implies |l_i(v)| \le ||v||_2
+    \]
+    Now we find the Riesz representant.
+    \[
+        (u,v) = \sum_{j=1}^{n}u_j v_j = v_i, \forall v \in \mathbb{R}^n \implies u_j = 0, j\ne i
+    \]
+
+    So $u = (0, \dots, 0, 1, 0, \dots, 0)$, where the i-th component receives the $1$.
+
+    With matrix induced inner product:
+
+    For boundedness:
+    
+    Let $\lambda_1 > 0$ be the smallest eigenvalue of $A$. Using the Rayleigh quocient
+    \[
+        R(v) = \frac{v^\top A v}{v^\top v} \ge \lambda_1 \implies v^\top A v \ge \lambda_1 ||v||_2^2 \ge \lambda_1 v_i^2 \implies v_i^2 \le \frac{v^\top A v}{\lambda_1}
+    \]
+
+    Then
+
+    \[
+        |v_i| = |l_i(v)| \le \frac{1}{\sqrt{\lambda_1}}||v||_A 
+    \]
+
+    The representant: let $a_i$ be the i-th collumn of $A$. Then
+    \[
+        (u,v)_A = u^\top A v = v_1 u^\top a_1 + \dots + v_n u^\top a_n = v_i, \forall v \in \mathbb{R}^n \implies u^\top a_j = 0, \forall j \ne i
+    \]
+
+    This tells us that $u$ is orthogonal to $span\{ a_1, \dots, a_{i-1}, a_{i+1}, \dots, a_n \}$. Treating the term that remains: $v_iu^\top a_i = v_i \implies u^\top a_i = 1$.
+
+    So the Riesz representant is the vector $u$ such that $u^\top a_i = 1$ and $u$ is orthogonal to $span(\{a_1, \dots, a_n\} \backslash \{a_i\})$
+
+    \section*{Exercise 2}
+
+    Let $V = span\{ 1, x, \dots, x_n \}$. Let's prove that $V$ with the $L^2$ inner product is complete:
+
+    Note first that if $u \in V$, $u$ is bounded (because $\Omega = (-1,1)$ is bounded). Let $u_{max} = \sup_{x\in (-1,1)} |u(x)|$, We have
+    \begin{equation}
+        \label{eq:inequality}
+        \normL{u}{2} = \left( \int_{-1}^{1} u^2(x) dx \right)^{\frac{1}{2}} \le (2 u_{max}^2)^{\frac{1}{2}} = \sqrt{2}|u_{max}|
+    \end{equation}
+
+    This implies that if $u_k$ is a cauchy sequence in $\normL{\cdot}{\infty}$, then $u_k$ is a Cauchy sequence in $\normL{\cdot}{2}$.
+
+    Take $u_k(x) = a_{0k} + a_{1k}x + \dots + a_{nk}x^n$ a Cauchy sequence in $\normL{\cdot}{\infty}$. Take $\varepsilon > 0$. In particular, as $\{ 1, x, \dots, x^n \}$ forms a base, we have that $\forall i = 1, \dots, n$, $\exists M > 0$ such that $m,k > M$ implies
+    \[
+        |(a_{ik} - a_{im})x^i| \le |a_{ik} - a_{im}| < \varepsilon
+    \]
+
+    As $\mathbb{R}$ is complete $a_{ik} \to a_i$ as $k \to \infty$. So $u_k \to u = a_0 + a_1 x + \dots + a_n x^n$. Now, because of \ref{eq:inequality}, $u_k \to u$ with the $L^2$ norm. So $V$ is a Hilbert space with the $L^2$ inner product.
+
+    \subsection*{First linear functional:} 
+    $l(v) = 0$. Clearly bounded
+
+    Representative: $u \equiv 0$. In fact
+    \[
+        (0,v)_{L^2} = \int_{-1}^{1} 0 v(x) dx = 0
+    \]
+
+    \subsection*{Second linear functional:}
+    $l(v) = \int_{-1}^{1}v(x) dx$
+
+    Boundedness: By Cauchy-Schwarz inequality
+
+    \[
+        \left( \int_{-1}^{1} v(x) \cdot 1 dx \right)^2 \le \int_{-1}^{1} v^2(x) dx \cdot \int_{-1}^{1}1^2 dx = 2 \int_{-1}^{1} v^2(x) dx
+    \]
+
+    Therefore
+    \[
+        \int_{-1}^{1}v(x) \le \sqrt{2}\normL{v}{2}
+    \]
+
+    Finding the representant:
+
+    \[
+        (u,v)_{L^2} = \int_{-1}^{1}u(x)v(x) dx = \int_{-1}^{1} v(x) dx \implies u(x) = 1
+    \]
+
+    $\therefore u \equiv 1$
+
+    \section*{Exercise 3}
+    Let $u,v \in V$. By Cauchy-Schwarz inequality
+    \[
+        (u,v) \le ||u||_V ||v||_V
+    \]
+    Where $||\cdot||_V$ is the induced norm. The bilinearity comes from the linearity in the first argument and the symmetry of the inner product. With this, a scalar product is a bilinear form.
+
+    \section*{Exercise 4}
+    Symmetry: follow from the symmetry of the bilinear form.
+
+    Linearity: $a(\alpha v + \beta w, u) = \alpha a(v,u) + \beta a(w,u)$, by the bilinearity
+
+    Positivity: As the bilinear form is strongly coercive , $\exists \alpha > 0$ such that $a(u,u) \ge \alpha ||u||_V \ge 0$.
+    Now remains to prove that $a(u,u) = 0 \iff u = 0$
+
+    \[
+        (\implies) a(u,u) = 0 \text{. We have } a(u,u) = 0 \ge \alpha ||u||_V \implies ||u||_V = 0 \implies u = 0 
+    \]
+
+    \[
+        (\Longleftarrow) u = 0 \implies a(u,u) = a(u + u, u) = 2a(u,u) \implies a(u,u) = 0
+    \]
+
+    So a symetric, continuous and coercive bilinear form defines an inner product.
+
+    Let $\{v_n\} \in V$ such that $||v_n - v||_V \overset{n \to \infty}{\longrightarrow} 0$, $v \in V$. As $a$ is continuous:
+
+    \[
+        ||v_n -v||_a = \sqrt{a(v_n -v, v_n - v)} \le \sqrt{C_a}||v_n - v||_V \to 0 \implies ||v_n - v||_a \overset{n \to \infty}{\longrightarrow} 0
+    \]
+\end{document}
