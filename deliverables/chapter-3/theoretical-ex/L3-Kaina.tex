@@ -1,3 +1,4 @@
+% !TEX program = lualatex
 \documentclass{article}
 
 \usepackage{indentfirst}
@@ -119,6 +120,39 @@
     \]
 
     $\therefore u \equiv 1$
+
+    \subsection*{Finding the Riesz representant of l(v)=v(0)}
+    We need to find $u_L$ such that, for all $v \in V$:
+    \[
+        \int_{-1}^{1}u_L(x)v(x) dx = v(0)
+    \]
+    
+    Remember fist that the Legendre polynomials are orthogonal in the interval $(-1,1)$. So, if $P_n(x)$ is the n-th Legendre polynomial:
+    \[
+        \int_{-1}^{1}P_n(x)p_m(x) dx = \frac{2}{2n+1}\delta_{mn}
+    \] 
+    So $P_1, \dots, P_n$ forms a base for this funcion space. Take the representations $u_L(x) = \sum_{k=0}^{n}u_kP_k(x)$ and $v(x) = \sum_{k=0}^{n} v_k P_k(x)$ in this base of Legendre polynomials. Then
+    \[
+        \int_{-1}^{1} u_L(x) v(x) dx = \int_{-1}^{1}\left(\sum_{k=0}^{n}u_k P_k(x) \right) \left( \sum_{i=0}^{n} v_i P_i(x) \right) dx =
+    \]
+    \[
+        \sum_{k=0}^{n}\sum_{i=0}^{n} u_k v_i \int_{-1}^{1} P_k(x) P_i(x) dx
+    \]
+    Using the orthogonality:
+    \[
+        \int_{-1}^{1}u_L(x) v(x) dx = \sum_{k=0}^{n}u_k v_k \frac{2}{2k+1}
+    \]
+
+    From another point of view,
+    \[
+        v(0) = \sum_{k=0}^{n} v_k P_k(0) = \sum_{k=0}^{n}u_k v_k \frac{2}{2k+1}
+    \]
+
+    Note that if 
+    \[
+        P_k(0) = u_k \frac{2}{2k+1} \implies u_k = \frac{2k + 1}{2}P_k(0), \forall k =0, \dots, n
+    \]
+    We have a representant. As the Riesz representant is unique, we found $u_L$
 
     \section*{Exercise 3}
     Let $u,v \in V$. By Cauchy-Schwarz inequality
