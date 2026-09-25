@@ -1,0 +1,36 @@
+% !TEX program = lualatex
+\documentclass{article}
+
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Exercises from chapter 4}
+
+\author{Kainã Alves Tureso - 15466391}
+
+\begin{document}
+    \maketitle
+
+    \section*{Exercise 4}
+    Let's define first $H^1_{D0}(\Omega) = \{v \in H^1(\Omega) : v\restriction_{\Gamma_D} = 0\}$. Take $v \in H^1_{D0}$. Multiplying it in both sides and integrating, as seen previously, we obtain:
+    \begin{equation}
+        \label{eq:VF1}
+        \int_{\Omega} \mu \nabla u  \cdot \nabla v dx - \int_{\Gamma_D \cup \Gamma_R} \mu \nabla u \cdot \check{n} v ds = \int_\Omega fv dx
+    \end{equation}
+    Analysing the bundary term, noticing that $v =0$ at $\Gamma_D$:
+    \[
+        \int_{\Gamma_D \cup \Gamma_R} \mu \nabla u \cdot \check{n} v ds =  \int_{\Gamma_R} \mu \nabla u \cdot \check{n} v ds = \int_{\Gamma_R} (h-\gamma u)v ds
+    \]
+    Using a lift in $u$, i.e. $u = u_0 + u_g$ with $u_0 \in H^1_{D0}$ and $u_g \restriction_{\Gamma_D} = g$, we can rewrite \ref{eq:VF1} as 
+    \[
+        \int_\Omega \mu \nabla (u_0 + u_g) \cdot \nabla v dx - \int_{\Gamma_R} (h - \gamma(u_0 + u_g)) v ds = \int_\Omega fvdx 
+    \]
+
+    So we have the variational formulation:
+
+    Find $u_0 \in H^1_{D0}$ such that $\forall v \in H^1_{D0}$:
+    \[
+        \int_\Omega \mu \nabla u_0 \cdot \nabla v dx + \int_{\Gamma_R} \gamma u_0 v ds = \int_\Omega fvdx - \int_\Omega \mu \nabla u_g \cdot \nabla v dx + \int_{\Gamma_R} (h - \gamma u_g) v ds
+    \]
+\end{document}
