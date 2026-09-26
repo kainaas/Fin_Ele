@@ -1,0 +1,39 @@
+% !TEX program = lualatex
+\documentclass{article}
+
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Exercises from chapter 4}
+
+\author{Kainã Alves Tureso - 15466391}
+
+\begin{document}
+    \maketitle
+
+    \section*{Exercise 1}
+
+    Suppose by absurdity that $\exists w \in \mathbb{R}^n$ such that $Aw= 0w$, that is, $\lambda = 0$ is an eigenvalue and $w$ is the respective eigenvector with $w \ne 0$. So:
+    \[
+        Aw = 0 \implies w^\top A w = w^\top 0 = 0 
+    \]
+    But $w^\top A w > 0 $. Absurd. So $A$ doesn't have a $0$ eigenvalue. Therefore $A$ is invertible
+
+    \section*{Exercise 2}
+    We can show that the coercity and continuity constants are $1$, when using the energy norm:
+
+    \subsection*{Continuity constant}
+    Using the Cauchy-Schwarz inequality:
+    \[
+        |a(u,v)| \le ||u||_a ||v||_a \implies N_a = 1
+    \]
+
+    \subsection*{Coercity constant}
+    We just need to note hat $a(u,u) = ||u||^2_a = \alpha ||u||^2_a$. So $\alpha = 1$
+
+    Applying this to Céa's lemma, we obtain:
+    \[
+        ||u - u_h||_a \le ||u- v_h||_a, \forall v_h \in V_h
+    \]
+\end{document}
