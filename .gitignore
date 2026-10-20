@@ -1,7 +1,11 @@
+##Standard directories of repository
 Solutions/
-*.msh
 *notes*
 __pycache__/
+.pytest_cache/
+
+##Mesh files from gmsh
+*.msh
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

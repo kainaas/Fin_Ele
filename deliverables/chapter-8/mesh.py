@@ -157,8 +157,7 @@ class Function:
     def triangulation(self):
         '''
             Returns (points, values, triangles) with one entry per DoF, for
-            plotting; DG1 DoFs of neighbouring elements overlap in space but
-            have distinct ids, so the jumps between elements are preserved.
+            plotting
         '''
         if self.coeffs is None:
             raise ValueError("Function coefficients have not been set.")
@@ -180,7 +179,7 @@ class Function:
         ax.figure.colorbar(cs, ax=ax)
         return cs
 
-    def plot_surface(self, ax=None, cmap="viridis"):
+    def plot_surface(self, ax=None, cmap="viridis", title=""):
         """
         Plot the surface of the finite-element function.
 
@@ -222,7 +221,7 @@ class Function:
         ax.set_xlabel("$x$")
         ax.set_ylabel("$y$")
         ax.set_zlabel("$f_h(x,y)$")
-        ax.set_title("Finite Element Function")
+        ax.set_title(title)
 
         return fig, ax
 

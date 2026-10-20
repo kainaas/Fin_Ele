@@ -1,3 +1,4 @@
+"""TEST MADE WITH AI"""
 """Sanity checks for the from-scratch FEM code.  Run with:  pytest test_fem.py"""
 from math import factorial
 
