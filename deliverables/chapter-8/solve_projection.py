@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.sparse import lil_matrix
 from scipy.sparse.linalg import spsolve
-from quadrature import Quadrature
 
 from mesh import *
 from quadrature import *
@@ -45,12 +44,15 @@ def H1_projection(uh: Function, u, grad_u, QuadRule="strang10"):
 
     Returns
     -------
+    None. The coefficients are stored in uh.coeffs.
     """
     mesh = uh.mesh
 
     if mesh.FunctionSpace != "CG1":
-        print("Cannot make projection with this function space")
-        return
+        raise ValueError(
+            "The H1 projection needs weak gradients, so the space must be "
+            "contained in H1: use CG1 (DG1 functions jump across edges)."
+        )
 
     n_dofs = mesh.num_dofs
 
@@ -121,7 +123,7 @@ def H1_projection(uh: Function, u, grad_u, QuadRule="strang10"):
 
 
 
-def L2_projection(uh: Function, u, grad_u, QuadRule="strang10"):
+def L2_projection(uh: Function, u, grad_u=None, QuadRule="strang10"):
     """
     Compute the L2 projection of u onto the finite element space
     associated with mesh.
@@ -133,13 +135,14 @@ def L2_projection(uh: Function, u, grad_u, QuadRule="strang10"):
     u : callable
         Function u(x), where x is a physical point in R^2.
     grad_u : callable
-        Gradient of u, returned as an array of shape (2,).
+        Not used by the L2 projection, kept so that both projections share
+        the same call signature.
     QuadRule : str
         Quadrature rule: "strang3", "strang7", or "strang10".
 
     Returns
     -------
-
+    None. The coefficients are stored in uh.coeffs.
     """
     mesh = uh.mesh
 
@@ -149,13 +152,9 @@ def L2_projection(uh: Function, u, grad_u, QuadRule="strang10"):
     A = lil_matrix((n_dofs, n_dofs), dtype=float)
     b = np.zeros(n_dofs)
 
-    # Gradients of the reference P1 basis functions.
-    grad_hat = grad_phi_hat()
-
     points = Quadrature.points[QuadRule]
     weights = Quadrature.weights[QuadRule]
 
-    
     # Loop over elements.
     for element in mesh.elements:
 
@@ -177,15 +176,12 @@ def L2_projection(uh: Function, u, grad_u, QuadRule="strang10"):
 
             factor = 0.5 * det_J * w
 
-            # Local RHS:
-            # integral_K (u*phi_r + grad(u).grad(phi_r)) dx
+            # Local RHS:  integral_K u*phi_r dx
             rhs_e += factor * (
                 u_x * phi
             )
 
-            # Local matrix:
-            # integral_K (phi_r*phi_s
-            #             + grad(phi_r).grad(phi_s)) dx
+            # Local matrix:  integral_K phi_r*phi_s dx
             ae += factor * (
                 np.outer(phi, phi)
             )
@@ -210,8 +206,11 @@ def L2_projection(uh: Function, u, grad_u, QuadRule="strang10"):
 def H1_error(uh: Function, u, grad_u, QuadRule="strang10"):
     """
     Approximate the continuous H1 error ||u - u_h||_{H1(Omega)}
-    using Gaussian quadrature on each element.
+    using the chosen quadrature rule on each element (CG1 only).
     """
+    if uh.mesh.FunctionSpace != "CG1":
+        raise ValueError("The H1 error is only defined for CG1 functions.")
+
 
     grad_hat = grad_phi_hat()
 
@@ -219,8 +218,7 @@ def H1_error(uh: Function, u, grad_u, QuadRule="strang10"):
 
     coeffs = uh.coeffs
     if coeffs is None:
-        print("Must have coefficients")
-        return None
+        raise ValueError("uh has no coefficients: compute a projection first.")
 
     mesh = uh.mesh
     for element in mesh.elements:
@@ -256,18 +254,17 @@ def H1_error(uh: Function, u, grad_u, QuadRule="strang10"):
     return np.sqrt(max(error_squared, 0.0))
 
 
-def L2_error(uh: Function, u, grad_u, QuadRule="strang10"):
+def L2_error(uh: Function, u, grad_u=None, QuadRule="strang10"):
     """
     Approximate the continuous L2 error ||u - u_h||_{L2(Omega)}
-    using Gaussian quadrature on each element.
+    using the chosen quadrature rule on each element (grad_u is unused).
     """
 
     error_squared = 0.0
 
     coeffs = uh.coeffs
     if coeffs is None:
-        print("Must have coefficients")
-        return None
+        raise ValueError("uh has no coefficients: compute a projection first.")
 
     mesh = uh.mesh
     for element in mesh.elements:

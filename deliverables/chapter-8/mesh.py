@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def point(x: float, y: float) -> np.array:
+def point(x: float, y: float) -> np.ndarray:
     return np.array([x,y])
 
 class DoF:
@@ -112,8 +112,7 @@ class Mesh:
                     mesh.elements.append(e2)
 
         else:
-            print(FunctionSpace, "is not a known function space")
-            return None
+            raise ValueError(f"{FunctionSpace} is not a known function space")
         
         mesh.num_dofs = id
 
@@ -122,6 +121,26 @@ class Mesh:
     def plot(self, ax: plt.Axes, show_ids: bool = True):
         for e in self.elements:
             e.plot(ax, show_ids)
+
+    def boundary_dofs(self, side: str, tol: float = 1e-12) -> list:
+        '''
+            DoFs lying on one side of the unit square ("left", "right",
+            "bottom" or "top"). Only meaningful for CG1, where a DoF is a
+            vertex shared by neighbouring elements; each DoF is returned once.
+        '''
+        if self.FunctionSpace != "CG1":
+            raise ValueError("boundary DoFs are only defined for CG1")
+        on_side = {
+            "left":   lambda p: abs(p[0]) < tol,
+            "right":  lambda p: abs(p[0] - 1.0) < tol,
+            "bottom": lambda p: abs(p[1]) < tol,
+            "top":    lambda p: abs(p[1] - 1.0) < tol,
+        }
+        if side not in on_side:
+            raise ValueError(f"unknown side {side!r}")
+        found = {d.id: d for e in self.elements for d in e.dofs
+                 if on_side[side](d.pos)}
+        return [found[i] for i in sorted(found)]
 
 
 
@@ -135,7 +154,32 @@ class Function:
         }
         self.coeffs: np.ndarray | None = None
 
-    def plot_surface(self, ax=None, cmap="viridis"):
+    def triangulation(self):
+        '''
+            Returns (points, values, triangles) with one entry per DoF, for
+            plotting
+        '''
+        if self.coeffs is None:
+            raise ValueError("Function coefficients have not been set.")
+        points = np.zeros((self.mesh.num_dofs, 2))
+        for dof_id, dof in self.dofs.items():
+            points[dof_id] = dof.pos
+        triangles = np.array([[d.id for d in e.dofs] for e in self.mesh.elements])
+        return points, np.asarray(self.coeffs), triangles
+
+    def plot_contour(self, ax, levels=20, cmap="viridis", title=""):
+        '''
+            Filled contours of the finite element function.
+        '''
+        points, values, triangles = self.triangulation()
+        cs = ax.tricontourf(points[:, 0], points[:, 1], triangles, values,
+                            levels=levels, cmap=cmap)
+        ax.set_aspect("equal")
+        ax.set_title(title)
+        ax.figure.colorbar(cs, ax=ax)
+        return cs
+
+    def plot_surface(self, ax=None, cmap="viridis", title=""):
         """
         Plot the surface of the finite-element function.
 
@@ -177,7 +221,7 @@ class Function:
         ax.set_xlabel("$x$")
         ax.set_ylabel("$y$")
         ax.set_zlabel("$f_h(x,y)$")
-        ax.set_title("Finite Element Function")
+        ax.set_title(title)
 
         return fig, ax
 
