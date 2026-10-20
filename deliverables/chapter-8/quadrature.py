@@ -7,9 +7,12 @@ class Quadrature:
     '''
         This class holds the implementation of quadrature.
         Supports quadratures on triangle with vertices (0,0), (1,0), (0,1). Quadratrure rules supported:
-        Strang3: order 3
-        Strang7: order 5
-        Strang10: order 7
+        strang3:  4 points,  exact for polynomials of degree <= 3
+        strang7:  7 points,  exact for polynomials of degree <= 5
+        strang10: 13 points, exact for polynomials of degree <= 7
+        (the number in the name comes from the tabulated rule, it is not the
+        number of points). Weights are normalised to sum to 1, so the integral
+        over the master triangle (area 1/2) is  sum(w f(x)) / 2.
     '''
     points = {"strang3":  [point(0.33333333333333333333, 0.33333333333333333333),
                            point(0.60000000000000000000, 0.20000000000000000000),
