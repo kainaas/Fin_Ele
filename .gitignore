@@ -4,6 +4,9 @@ Solutions/
 __pycache__/
 .pytest_cache/
 
+*.pvd
+*.pvu
+
 ##Mesh files from gmsh
 *.msh
 
