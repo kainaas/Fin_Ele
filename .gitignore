@@ -5,7 +5,7 @@ __pycache__/
 .pytest_cache/
 
 *.pvd
-*.pvu
+*.vtu
 
 ##Mesh files from gmsh
 *.msh
